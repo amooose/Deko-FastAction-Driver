@@ -229,7 +229,7 @@ static KeyboardKeycode optionalRemap(KeyboardKeycode usbKeystroke,uint8_t gest)
     KeyboardKeycode enumVar = usbKeystroke;
     switch (enumVar)
     {
-        /*
+        /* These are just my preferences, I moved the arrow keys/etc
         case KeyboardKeycode::DEKOKEY_CHAR:{
             return HID_KEYBOARD_LEFTARROW;
             break;
@@ -272,12 +272,12 @@ static KeyboardKeycode optionalRemap(KeyboardKeycode usbKeystroke,uint8_t gest)
         switch (enumVar)
         {
             case KeyboardKeycode::DEKOKEY_MACROEDIT:{
-                DekoLCDClear();
-                DekoLCDDisplayString("EGG STATUS:         DELIVERED (YUM)", 0,true,false);
+                //DekoLCDClear();
+                //DekoLCDDisplayString("EGG STATUS:         DELIVERED (YUM)", 0,true,false);
                 break;
             }
             default:{
-                // is likely to be an error
+
             }
         }
 
@@ -369,6 +369,7 @@ void handleAHKInput(unsigned int input){
         blink= (input==1u && input>0u)? false : true;
     }
     if(input>2){
+        DekoLCDDisplayString(String(input), 0,true,false);
         if(blink){
             DekoLEDBlinkToggle((DekoLED::LED)(unsigned int)input);
         } else{
@@ -399,8 +400,7 @@ void loop() {
     if (scanCode != ps2::KeyboardOutput::none && scanCode != ps2::KeyboardOutput::garbled){
         ps2::UsbKeyAction action = keyMapping.translatePs2Keycode(scanCode);
         KeyboardKeycode hidCode = (KeyboardKeycode)action.hidCode;
-        Serial.println("INCOME:");
-        Serial.println(hidCode,HEX);
+
         hidCode = optionalRemap(hidCode,(uint8_t)action.gesture);
         KeyboardKeycode sKey=DEKOKEY_NONE;
         handleDekoKey(hidCode,sKey);
