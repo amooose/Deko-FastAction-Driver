@@ -369,7 +369,6 @@ void handleAHKInput(unsigned int input){
         blink= (input==1u && input>0u)? false : true;
     }
     if(input>2){
-        DekoLCDDisplayString(String(input), 0,true,false);
         if(blink){
             DekoLEDBlinkToggle((DekoLED::LED)(unsigned int)input);
         } else{
